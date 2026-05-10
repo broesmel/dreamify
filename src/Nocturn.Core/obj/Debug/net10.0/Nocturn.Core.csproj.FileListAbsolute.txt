@@ -1,0 +1,13 @@
+C:\dev\dreamify\src\Nocturn.Core\bin\Debug\net10.0\Nocturn.Core.deps.json
+C:\dev\dreamify\src\Nocturn.Core\bin\Debug\net10.0\Nocturn.Core.dll
+C:\dev\dreamify\src\Nocturn.Core\bin\Debug\net10.0\Nocturn.Core.pdb
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.csproj.AssemblyReference.cache
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.AssemblyInfoInputs.cache
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.AssemblyInfo.cs
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.csproj.CoreCompileInputs.cache
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.sourcelink.json
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.dll
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\refint\Nocturn.Core.dll
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\Nocturn.Core.pdb
+C:\dev\dreamify\src\Nocturn.Core\obj\Debug\net10.0\ref\Nocturn.Core.dll

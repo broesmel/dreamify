@@ -1,0 +1,8 @@
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.csproj.AssemblyReference.cache
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.AssemblyInfoInputs.cache
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.AssemblyInfo.cs
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.csproj.CoreCompileInputs.cache
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\dev\dreamify\src\Nocturn.Api\obj\Debug\net9.0\Nocturn.Api.sourcelink.json

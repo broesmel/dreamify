@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "SXl2hNCvP34=",
+  "success": true,
+  "projectFilePath": "C:\\dev\\dreamify\\src\\Nocturn.Core\\Nocturn.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.ai\\10.5.2\\microsoft.extensions.ai.10.5.2.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.ai.abstractions\\10.5.2\\microsoft.extensions.ai.abstractions.10.5.2.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\10.0.6\\microsoft.extensions.caching.abstractions.10.0.6.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.6\\microsoft.extensions.dependencyinjection.abstractions.10.0.6.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.6\\microsoft.extensions.logging.abstractions.10.0.6.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.6\\microsoft.extensions.primitives.10.0.6.nupkg.sha512",
+    "C:\\Users\\claudia\\.nuget\\packages\\system.numerics.tensors\\10.0.6\\system.numerics.tensors.10.0.6.nupkg.sha512"
+  ],
+  "logs": []
+}

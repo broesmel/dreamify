@@ -1,0 +1,23 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+nocturn.db
+nocturn.db-shm
+nocturn.db-wal
+
+# Node
+node_modules/
+dist/
+.expo/
+.expo-shared/
+
+# Env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
