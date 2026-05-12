@@ -6,7 +6,7 @@ export function EveningPage() {
     <Stack h="calc(100vh - 2rem)" gap="sm">
       <div>
         <Title order={2} c="violet.3">Evening Reflection</Title>
-        <Text size="sm" c="dimmed">Take a moment to close the day.</Text>
+        <Text size="sm" c="dimmed">Take a moment to close the day with Dreamify.</Text>
       </div>
       <ChatPanel mode="evening" />
     </Stack>

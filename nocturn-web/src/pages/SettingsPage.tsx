@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Title, Text, Stack, Select, NumberInput, Switch, TextInput, Button, Group, Card, ActionIcon, Badge, Loader, Center, FileButton } from '@mantine/core'
+import { Title, Text, Stack, Select, NumberInput, Switch, TextInput, Button, Group, Card, ActionIcon, Badge, Loader, Center, FileButton, Divider } from '@mantine/core'
 import { IconDownload, IconUpload, IconTrash, IconRefresh } from '@tabler/icons-react'
 import { notifications } from '@mantine/notifications'
 import {
@@ -7,6 +7,7 @@ import {
   exportBackup, importBackup, deleteBackup, triggerBackup,
 } from '../api/client'
 import type { BackupSettings, BackupMeta } from '../api/client'
+import { ModelManager } from '../components/ModelManager'
 
 export function SettingsPage() {
   const [settings, setSettings] = useState<BackupSettings | null>(null)
@@ -73,8 +74,17 @@ export function SettingsPage() {
     <Stack gap="lg" maw={560}>
       <div>
         <Title order={2} c="violet.3">Settings</Title>
-        <Text size="sm" c="dimmed">Backup & data management.</Text>
+        <Text size="sm" c="dimmed">Model, backup & data management.</Text>
       </div>
+
+      <Card bg="dark.7" radius="md" padding="lg">
+        <Stack gap="md">
+          <Text fw={600}>AI Model</Text>
+          <ModelManager />
+        </Stack>
+      </Card>
+
+      <Divider />
 
       <Card bg="dark.7" radius="md" padding="lg">
         <Stack gap="md">

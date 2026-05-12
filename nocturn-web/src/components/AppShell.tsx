@@ -19,7 +19,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <AppShell.Navbar p="md">
         <Stack justify="space-between" h="100%">
           <Stack gap={4}>
-            <Text fw={700} size="lg" mb="md" c="violet.3">Nocturn</Text>
+            <Text fw={700} size="lg" mb="md" c="violet.3">Dreamify</Text>
             {nav.map(({ path, label, icon: Icon }) => (
               <NavLink
                 key={path}

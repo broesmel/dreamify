@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.AI;
 using Nocturn.Api.Backends;
 using Nocturn.Api.Endpoints;
 using Nocturn.Api.Services;
@@ -7,21 +6,14 @@ using Nocturn.Core.Interfaces;
 using Nocturn.Core.Models;
 using Nocturn.Core.Services;
 using Nocturn.Data;
-using OpenAI;
-using System.ClientModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var appSettings = AppSettingsStore.Load();
 builder.Services.AddSingleton(appSettings);
 
-// OpenAI.Chat.ChatClient pointed at Ollama's OpenAI-compatible endpoint
-builder.Services.AddChatClient(
-    new OpenAIClient(
-        new ApiKeyCredential("ollama"),
-        new OpenAIClientOptions { Endpoint = new Uri(appSettings.OllamaEndpoint) })
-    .GetChatClient(appSettings.ModelName)
-    .AsIChatClient());
+// OllamaBackend creates its own client per-request from AppSettings
+// so model changes take effect without restarting the API
 
 builder.Services.AddScoped<IInferenceBackend, OllamaBackend>();
 builder.Services.AddScoped<DiaryAgentService>();
@@ -68,5 +60,6 @@ app.UseCors();
 app.MapChatEndpoints();
 app.MapEntryEndpoints();
 app.MapBackupEndpoints();
+app.MapModelEndpoints();
 
 app.Run();

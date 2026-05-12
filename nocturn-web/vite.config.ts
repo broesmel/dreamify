@@ -10,6 +10,7 @@ export default defineConfig({
       '/entries': 'http://localhost:5000',
       '/backup': 'http://localhost:5000',
       '/health': 'http://localhost:5000',
+      '/models': 'http://localhost:5000',
     },
   },
 })

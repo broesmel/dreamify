@@ -145,3 +145,60 @@ export async function getModelHealth(): Promise<{ status: string; availableModel
   const res = await fetch(`${BASE}/health/model`)
   return res.json()
 }
+
+// --- Models ---
+
+export interface AvailableModel {
+  name: string
+  label: string
+  ramGb: number
+  description: string
+  bestFor: string
+  recommended: boolean
+}
+
+export async function getAvailableModels(): Promise<AvailableModel[]> {
+  const res = await fetch(`${BASE}/models/available`)
+  return res.json()
+}
+
+export async function getInstalledModels(): Promise<string[]> {
+  const res = await fetch(`${BASE}/models/installed`)
+  return res.json()
+}
+
+export async function* pullModel(name: string): AsyncGenerator<{
+  status: string
+  total?: number
+  completed?: number
+}> {
+  const res = await fetch(`${BASE}/models/pull/${encodeURIComponent(name)}`, { method: 'POST' })
+  const reader = res.body!.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop() ?? ''
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        try { yield JSON.parse(line.slice(6)) } catch { /* skip */ }
+      }
+    }
+  }
+}
+
+export async function deleteModel(name: string): Promise<void> {
+  await fetch(`${BASE}/models/${encodeURIComponent(name)}`, { method: 'DELETE' })
+}
+
+export async function setActiveModel(name: string): Promise<void> {
+  await fetch(`${BASE}/models/active`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name }),
+  })
+}

@@ -1,12 +1,15 @@
 using Microsoft.Extensions.AI;
 using Nocturn.Core.Interfaces;
+using Nocturn.Core.Models;
 using Nocturn.Core.Services;
+using OpenAI;
+using System.ClientModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Nocturn.Api.Backends;
 
-public class OllamaBackend(IChatClient chatClient) : IInferenceBackend
+public class OllamaBackend(AppSettings appSettings) : IInferenceBackend
 {
     public async IAsyncEnumerable<string> CompleteStreamingAsync(
         string mode,
@@ -16,12 +19,18 @@ public class OllamaBackend(IChatClient chatClient) : IInferenceBackend
     {
         history.Add(new ChatMessage(ChatRole.User, userMessage));
 
-        // Build full message list: system prompt first, then conversation history
         var messages = new List<ChatMessage>
         {
             new(ChatRole.System, DiaryAgentService.GetSystemPrompt(mode))
         };
         messages.AddRange(history);
+
+        // Create client per-request so model/endpoint changes take effect immediately
+        var chatClient = new OpenAIClient(
+            new ApiKeyCredential("ollama"),
+            new OpenAIClientOptions { Endpoint = new Uri(appSettings.OllamaEndpoint) })
+            .GetChatClient(appSettings.ModelName)
+            .AsIChatClient();
 
         var fullResponse = new StringBuilder();
 
