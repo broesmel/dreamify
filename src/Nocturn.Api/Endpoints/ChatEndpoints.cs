@@ -1,4 +1,5 @@
 using Microsoft.Extensions.AI;
+using Nocturn.Core.Models;
 using Nocturn.Core.Services;
 using Nocturn.Data;
 using System.Collections.Concurrent;
@@ -8,26 +9,29 @@ namespace Nocturn.Api.Endpoints;
 
 public static class ChatEndpoints
 {
-    private static readonly ConcurrentDictionary<string, (string Mode, List<ChatMessage> History)>
-        Sessions = new();
+    private static readonly ConcurrentDictionary<Guid, (string Mode, List<ChatMessage> History)>
+        InMemorySessions = new();
 
     public static void MapChatEndpoints(this WebApplication app)
     {
-        app.MapPost("/sessions", (CreateSessionRequest req) =>
+        app.MapPost("/sessions", async (CreateSessionRequest req, NocturnDbContext db, CancellationToken ct) =>
         {
-            var id = Guid.NewGuid().ToString();
-            Sessions[id] = (req.Mode, []);
-            return Results.Ok(new { sessionId = id });
+            var session = new Session { Mode = req.Mode };
+            db.Sessions.Add(session);
+            await db.SaveChangesAsync(ct);
+
+            InMemorySessions[session.Id] = (req.Mode, []);
+            return Results.Ok(new { sessionId = session.Id });
         });
 
-        app.MapDelete("/sessions/{id}", (string id) =>
+        app.MapDelete("/sessions/{id:guid}", (Guid id) =>
         {
-            Sessions.TryRemove(id, out _);
+            InMemorySessions.TryRemove(id, out _);
             return Results.NoContent();
         });
 
-        app.MapPost("/sessions/{id}/chat", async (
-            string id,
+        app.MapPost("/sessions/{id:guid}/chat", async (
+            Guid id,
             ChatRequest req,
             DiaryAgentService agent,
             EntryExtractor extractor,
@@ -35,7 +39,7 @@ public static class ChatEndpoints
             HttpContext http,
             CancellationToken ct) =>
         {
-            if (!Sessions.TryGetValue(id, out var session))
+            if (!InMemorySessions.TryGetValue(id, out var session))
                 return Results.NotFound();
 
             http.Response.ContentType = "text/event-stream";
@@ -50,10 +54,11 @@ public static class ChatEndpoints
                 await http.Response.Body.FlushAsync(ct);
             }
 
-            var entry = extractor.TryExtract(session.Mode, fullText.ToString());
+            var transcript = BuildTranscript(session.History);
+            var entry = extractor.TryExtract(session.Mode, fullText.ToString(), transcript);
             if (entry is not null)
             {
-                entry.SessionId = Guid.Parse(id.Length == 36 ? id : Guid.NewGuid().ToString());
+                entry.SessionId = id;
                 db.JournalEntries.Add(entry);
                 await db.SaveChangesAsync(ct);
                 await http.Response.WriteAsync($"event: entry\ndata: {entry.Id}\n\n", ct);
@@ -62,6 +67,17 @@ public static class ChatEndpoints
 
             return Results.Empty;
         });
+    }
+
+    private static string BuildTranscript(List<ChatMessage> history)
+    {
+        var sb = new StringBuilder();
+        foreach (var msg in history)
+        {
+            var role = msg.Role == ChatRole.User ? "User" : "Nocturn";
+            sb.AppendLine($"{role}: {msg.Text}");
+        }
+        return sb.ToString();
     }
 }
 

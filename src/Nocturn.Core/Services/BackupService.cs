@@ -223,9 +223,9 @@ public class BackupService(AppSettings settings)
     }
 
     private static byte[] DeriveKey(string passphrase, byte[] salt) =>
-        new Rfc2898DeriveBytes(
+        Rfc2898DeriveBytes.Pbkdf2(
             Encoding.UTF8.GetBytes(passphrase), salt,
-            600_000, HashAlgorithmName.SHA256).GetBytes(32);
+            600_000, HashAlgorithmName.SHA256, 32);
 
     private static async Task WriteZipEntryAsync<T>(
         ZipArchive zip, string name, T value, CancellationToken ct)

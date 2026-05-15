@@ -1,4 +1,4 @@
-const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:5000'
+const BASE = import.meta.env.VITE_API_URL ?? ''
 
 export interface JournalEntry {
   id: string
@@ -25,6 +25,7 @@ export interface BackupSettings {
   includeRawTranscripts: boolean
   includeSettings: boolean
   encryptBackups: boolean
+  backupPassphrase: string | null
   lastAutoBackupUtc: string | null
 }
 
@@ -55,6 +56,7 @@ export async function* streamChat(
   const reader = res.body!.getReader()
   const decoder = new TextDecoder()
   let buffer = ''
+  let lastEventWasEntry = false
 
   while (true) {
     const { done, value } = await reader.read()
@@ -64,11 +66,13 @@ export async function* streamChat(
     buffer = lines.pop() ?? ''
 
     for (const line of lines) {
-      if (line.startsWith('event: entry')) continue
-      if (line.startsWith('data: ') && buffer.includes('event: entry')) {
+      if (line.startsWith('event: entry')) { lastEventWasEntry = true; continue }
+      if (line.startsWith('data: ') && lastEventWasEntry) {
         onEntry(line.slice(6).trim())
+        lastEventWasEntry = false
       } else if (line.startsWith('data: ')) {
         yield line.slice(6)
+        lastEventWasEntry = false
       }
     }
   }

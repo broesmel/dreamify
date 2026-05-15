@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Nocturn.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+feee6bf08e668838d1afd4e02d474d1d93440454")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17cd07046f5a704fc34952fa9f12445bf419b04b")]
 [assembly: System.Reflection.AssemblyProductAttribute("Nocturn.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Nocturn.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

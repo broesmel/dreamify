@@ -133,6 +133,8 @@ public static class BackupEndpoints
             settings.Backup.IncludeRawTranscripts = updated.IncludeRawTranscripts;
             settings.Backup.IncludeSettings = updated.IncludeSettings;
             settings.Backup.EncryptBackups = updated.EncryptBackups;
+            if (updated.BackupPassphrase is not null)
+                settings.Backup.BackupPassphrase = updated.BackupPassphrase;
 
             await AppSettingsStore.SaveAsync(settings, ct);
             return Results.Ok(settings.Backup);
@@ -150,10 +152,11 @@ public static class BackupEndpoints
             var entries = await db.JournalEntries.ToListAsync(ct);
             var sessions = await db.Sessions.ToListAsync(ct);
 
+            var passphrase = settings.Backup.EncryptBackups ? settings.Backup.BackupPassphrase : null;
             var options = new BackupExportOptions(
                 settings.Backup.IncludeRawTranscripts,
                 settings.Backup.IncludeSettings,
-                settings.Backup.EncryptBackups ? null : null);  // passphrase not in auto mode
+                passphrase);
 
             var bytes = await backup.ExportAsync(entries, sessions, options, ct);
             var dir = settings.Backup.BackupFolderPath;

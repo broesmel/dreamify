@@ -126,10 +126,20 @@ export function SettingsPage() {
 
           <Switch
             label="Encrypt backups"
-            description="You'll be prompted for a passphrase at export time."
+            description="Backups are encrypted with AES-256-GCM using the passphrase below."
             checked={settings.encryptBackups}
             onChange={e => setSettings(s => s ? { ...s, encryptBackups: e.currentTarget.checked } : s)}
           />
+
+          {settings.encryptBackups && (
+            <TextInput
+              label="Backup passphrase"
+              description="Required for auto-backup encryption. Store this safely — you'll need it to restore."
+              type="password"
+              value={settings.backupPassphrase ?? ''}
+              onChange={e => setSettings(s => s ? { ...s, backupPassphrase: e.target.value || null } : s)}
+            />
+          )}
 
           <Text size="xs" c="dimmed">Last auto-backup: {lastBackup}</Text>
 

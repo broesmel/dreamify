@@ -22,6 +22,7 @@ public class BackupSettings
     public bool IncludeRawTranscripts { get; set; } = false;
     public bool IncludeSettings { get; set; } = true;
     public bool EncryptBackups { get; set; } = false;
+    public string? BackupPassphrase { get; set; }
     public DateTime? LastAutoBackupUtc { get; set; }
 
     private static string DefaultBackupPath() =>

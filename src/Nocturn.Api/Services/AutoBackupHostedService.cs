@@ -28,9 +28,11 @@ public class AutoBackupHostedService(
         var entries = await db.JournalEntries.ToListAsync(ct);
         var sessions = await db.Sessions.ToListAsync(ct);
 
+        var passphrase = settings.Backup.EncryptBackups ? settings.Backup.BackupPassphrase : null;
         var options = new BackupExportOptions(
             settings.Backup.IncludeRawTranscripts,
-            settings.Backup.IncludeSettings);
+            settings.Backup.IncludeSettings,
+            passphrase);
 
         var bytes = await backup.ExportAsync(entries, sessions, options, ct);
         var dir = settings.Backup.BackupFolderPath;

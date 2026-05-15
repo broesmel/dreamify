@@ -72,9 +72,9 @@ public static class ModelEndpoints
             await using var stream = await resp.Content.ReadAsStreamAsync(ct);
             using var reader = new StreamReader(stream);
 
-            while (!reader.EndOfStream && !ct.IsCancellationRequested)
+            string? line;
+            while ((line = await reader.ReadLineAsync(ct)) is not null && !ct.IsCancellationRequested)
             {
-                var line = await reader.ReadLineAsync(ct);
                 if (string.IsNullOrEmpty(line)) continue;
                 await http.Response.WriteAsync($"data: {line}\n\n", ct);
                 await http.Response.Body.FlushAsync(ct);

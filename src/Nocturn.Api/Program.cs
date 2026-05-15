@@ -44,8 +44,9 @@ lifetime.ApplicationStopping.Register(async () =>
     var db = scope.ServiceProvider.GetRequiredService<NocturnDbContext>();
     var entries = await db.JournalEntries.ToListAsync();
     var sessions = await db.Sessions.ToListAsync();
+    var passphrase = appSettings.Backup.EncryptBackups ? appSettings.Backup.BackupPassphrase : null;
     var opts = new BackupExportOptions(
-        appSettings.Backup.IncludeRawTranscripts, appSettings.Backup.IncludeSettings);
+        appSettings.Backup.IncludeRawTranscripts, appSettings.Backup.IncludeSettings, passphrase);
     var bytes = await backup.ExportAsync(entries, sessions, opts);
 
     Directory.CreateDirectory(appSettings.Backup.BackupFolderPath);
